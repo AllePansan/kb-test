@@ -74,6 +74,50 @@ export default function Body(props) {
                             <Image src='/../public/assets/body/Forward.png' width={24} height={24} />
                         </div>
                     </Carrousel>
+                    <Footer>
+                        <div className="cardFooter">
+                            <div className="top">
+                                <div className="title">
+                                    VENDA O SEU PRODUTO
+                                </div>
+                                <div className="sub-title">
+                                    Venda o seu produto usado em nosso marketplace.
+                                </div>
+                            </div>
+                            <div className="div">
+                                <Image src='/../public/assets/body/footer/1.png' width={384} height={168} />
+                            </div>
+                            
+                        </div>
+                        <div className="cardFooter">
+                            <div className="top">
+                                <div className="title">
+                                    CONHEÇA OS PRODUTOS PRIME
+                                </div>
+                                <div className="sub-title">
+                                    Fique por dentro de todos os nossoa benefícios.
+                                </div>
+                            </div>
+                            <div className="div">
+                                <Image src='/../public/assets/body/footer/2.png' width={384} height={168} />
+                            </div>
+                            
+                        </div>
+                        <div className="cardFooter">
+                            <div className="top">
+                                <div className="title">
+                                    CONHEÇA NOSSOS PRODUTOS DE LEILÃO
+                                </div>
+                                <div className="sub-title">
+                                    As melhores oportunidades de compra.
+                                </div>
+                            </div>
+                            <div className="div">
+                                <Image src='/../public/assets/body/footer/3.png' width={384} height={168} />
+                            </div>
+                            
+                        </div>
+                    </Footer>
                 </View>
     
             </Container>
@@ -155,3 +199,35 @@ const Carrousel = styled.div`
     }
 `
 
+const Footer = styled.div`
+    padding:32px 72px;
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    .cardFooter{
+        border:1px solid #F2F3F4;
+        background: transparent;
+        display:flex;
+        flex-direction:column;
+        .top{
+            padding:10px;
+            color: #565C69;
+            .title{
+                font-weight: bold;
+                font-size: 14px;
+                
+            }
+            .sub-title{
+                font-size: 10px;
+            }
+        }
+        .img{
+            height:168;
+            width:384;
+        }
+    }
+    @media(max-width: 1200px) {
+        flex-direction: column;
+
+    }
+`

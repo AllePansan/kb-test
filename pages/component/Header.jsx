@@ -39,7 +39,7 @@ export default function Header(props) {
                 </SearchBar>
                 <Login>
                     <div style={{ position: 'relative', borderRadius: '20px', width: '40px', height: '40px', overflow: 'hidden', flex: '0 0 40px', border: '3px solid #347BBE' }}>
-                        <Image alt="Mountains" src='/../public/assets/Header/p.png' layout="fill" objectFit="cover" />
+                        <Image alt="Mountains" src='/../public/assets/Header/avatar.png' layout="fill" objectFit="cover" />
                     </div>
 
                     <div className="text">
