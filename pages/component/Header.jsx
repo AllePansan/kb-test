@@ -1,24 +1,36 @@
 import styled from 'styled-components';
 import Image from 'next/image'
 import Link from 'next/link';
+import React, { useState, useEffect } from 'react';
 
-let cart = ''
 export default function Header(props) {
     //console.log(props)
-    
-    console.log(props.cart.length)
+
+    const [search, setSearch] = useState('')
+
+    function openSideMenu(){
+        console.log('Open side menu')
+    }
+    function applySearch(e){
+        e.preventDefault()
+        console.log('applying search : ', search)
+    }
+    function redirectMainPage(){
+        console.log('Redirects to KaBum.com.br')
+    }
+    //console.log(props.cart.length)
     //cart = props.cart.lenght
     return (
         <HeaderContainer>
             <Menu>
-                <div style={{ minWidth: '30px' }}>
+                <div style={{ minWidth: '30px', cursor:"pointer" }} onClick={openSideMenu}>
                     <Image
                         src={'/../public/assets/Header/menu.png'}
                         width={30}
                         height={20}
                     />
                 </div>
-                <div style={{ minWidth: '157px' }}>
+                <div style={{ minWidth: '157px', cursor:"pointer"  }} onClick={redirectMainPage}>
                     <Image
                         src='/../public/assets/Header/logo.png'
                         width={157}
@@ -27,19 +39,29 @@ export default function Header(props) {
                 </div>
 
                 <SearchBar>
-                    <input />
-                    <div style={{ width: '67px', position: 'absolute', zIndex: '2', right: 0, top: -5 }}>
+                    <form  onSubmit={applySearch}>
+                    <input onChange={event => setSearch(event.target.value)} />
+                    <div style={{ width: '67px', position: 'absolute', zIndex: '2', right: 0, top: -5 , cursor:"pointer"}} onClick={applySearch}>
                         <Image
                             src='/../public/assets/Header/p.png'
                             width={67}
                             height={44}
                         />
                     </div>
+                    </form>
+                    {/* <input onChange={event => setSearch(event.target.value)} />
+                    <div style={{ width: '67px', position: 'absolute', zIndex: '2', right: 0, top: -5 , cursor:"pointer"}} onClick={applySearch}>
+                        <Image
+                            src='/../public/assets/Header/p.png'
+                            width={67}
+                            height={44}
+                        />
+                    </div> */}
 
                 </SearchBar>
                 <Login>
                     <div style={{ position: 'relative', borderRadius: '20px', width: '40px', height: '40px', overflow: 'hidden', flex: '0 0 40px', border: '3px solid #347BBE' }}>
-                        <Image alt="Mountains" src='/../public/assets/Header/avatar.png' layout="fill" objectFit="cover" />
+                        <Image alt="avatar" src='/../public/assets/Header/avatar.png' layout="fill" objectFit="cover" />
                     </div>
 
                     <div className="text">
