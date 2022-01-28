@@ -7,11 +7,12 @@ import { useRouter } from 'next/router';
 let cart = [];
 export default function Body(props) {
     
+    
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [data, setData] = useState([]);
     
-
+    
     const router = useRouter();
 
     const CallBackCard = (data) => {
@@ -37,6 +38,50 @@ export default function Body(props) {
             )
     }, [])
 
+    function scrollLeft(){
+        const i = document.getElementById('slide');
+        //i.scrollLeft += 100;
+        i.scrollTo({left:i.scrollLeft + 225, behavior:'smooth'})
+    }
+
+    function scrollRight(){
+        const i = document.getElementById('slide');
+        i.s
+        i.scrollTo({left:i.scrollLeft - 225, behavior:'smooth'})
+    }
+    function countDown(){
+        let endDate = new Date('2022','00','29','00','00','00','00');
+        //console.log(endDate)
+        
+        //console.log(startDate)
+        //return endDate
+        const timer = document.getElementById('timer')
+        setInterval( () => {
+            let startDate = new Date()
+            let diff = Math.abs(endDate - startDate)
+            let days = Math.floor(diff / (1000 * 60 * 60 * 24)); 
+            let daysMilis = days * (1000 * 60 * 60 * 24)
+            let string
+            if(diff > daysMilis){
+                let rest = diff - daysMilis;
+                let hours = Math.floor(rest / (1000 * 60 * 60));
+                if(rest > (hours*1000 * 60 * 60)){
+                    let minrest = rest - (hours*1000 * 60 * 60);
+                    let minutes = Math.floor(minrest / (1000 * 60 ));
+                    if(minrest > (minutes * 1000 * 60)){
+                        let secrest = minrest - (minutes * 1000 * 60);
+                        //console.log(secrest)
+                        let seconds = Math.floor(secrest / 1000);
+                        string = days+'D '+hours+':'+minutes+':'+seconds+'';
+                        timer.innerText=string;
+                    }
+                }
+            }
+            
+        },1000)
+        
+    }
+    countDown()
     if (error) {
         return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
@@ -52,16 +97,16 @@ export default function Body(props) {
                         <Timer >
                             <span style={{ fontSize: '16px' }}>A PROMOÇÃO TERMINA EM:</span>
                             <Image src='/../public/assets/body/clock.png' width={22} height={24} />
-                            <span style={{ fontSize: '25px' }}>13d 18:15:56</span>
+                            <span style={{ fontSize: '25px' }} id='timer'>{}</span>
                         </Timer>
                     </div>
                     <Carrousel>
-                        <div className="prev">
+                        <div className="prev" onClick={scrollRight}  style={{cursor:'pointer'}}>
                             <Image src='/../public/assets/body/Back.png' width={24} height={24} />
                         </div>
     
                         {/*  carrousel over here*/}
-                        <div className="carousel">
+                        <div className="carousel" id='slide'>
                             {data.map(d => {
                                 return(<CarouselCard cbFunc={CallBackCard} item={d}></CarouselCard>)
                             })}
@@ -70,7 +115,7 @@ export default function Body(props) {
                         </div>
     
     
-                        <div className="next">
+                        <div className="next" onClick={scrollLeft} style={{cursor:'pointer'}}>
                             <Image src='/../public/assets/body/Forward.png' width={24} height={24} />
                         </div>
                     </Carrousel>
@@ -123,7 +168,7 @@ export default function Body(props) {
             </Container>
         );
     }
-
+    
     
 }
 
@@ -173,6 +218,7 @@ const Carrousel = styled.div`
     display:flex;
     flex-direction:row;
     align-items:center;
+    transition: transform .2s ease-out;
     .prev{
         
         width:30px;
@@ -209,6 +255,7 @@ const Footer = styled.div`
         background: transparent;
         display:flex;
         flex-direction:column;
+        cursor:pointer;
         .top{
             padding:10px;
             color: #565C69;
