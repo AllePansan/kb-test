@@ -15,27 +15,17 @@ export default function Body(props) {
     const [timerData, setTimerData] = useState('');
     const [date, setDate] = useState('');
 
-    let endDate ;
-    //let endDate = new Date('2022','00','29','00','00','00','00');
-    //console.log(endDate)
+
     const router = useRouter();
 
     const CallBackCard = (data) => {
-        //console.log(data)
-        //setCart(data)
         cart.push(data)
         console.log(cart)
         props.cbCart(cart)
         router.replace(router.asPath);
     }
     const CallBackTimer = (data) => {
-        //console.log(data)
-        //setCart(data)
-        //cart.push(data)
-        //console.log(data)
         setTimerData(data)
-        //props.cbCart(cart)
-        //router.replace(router.asPath);
     }
     useEffect(() => {
         fetch("/api/items")
@@ -183,6 +173,7 @@ const Container = styled.div`
     max-width:1440px;
     height:100%;
     margin:auto;
+    z-index:2;
     //border:1px solid;
 `
 const View = styled.div`
@@ -207,6 +198,27 @@ const View = styled.div`
             padding:0px;
             margin:0;
         }
+    }
+    @media(max-width: 1400px) {
+        top:-250px;
+
+    }
+    @media(max-width: 1200px) {
+        top:-230px;
+
+    }
+    @media(max-width: 1100px) {
+        top:-200px;
+
+    }
+    
+    @media(max-width: 950px) {
+        top:-150px;
+
+    }
+    @media(max-width: 750px) {
+        top:-100px;
+
     }
 `
 
