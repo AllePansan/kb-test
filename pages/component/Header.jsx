@@ -63,6 +63,8 @@ export default function Header(props) {
     //console.log(props.cart.length)
     //cart = props.cart.lenght
     return (
+        <>
+        
         <HeaderContainer>
             <Menu>
                 <div style={{ minWidth: '30px', cursor:"pointer" }} onClick={openSideMenu}>
@@ -152,7 +154,34 @@ export default function Header(props) {
                 </HeaderOptions>
                 
             </Menu>
+        
         </HeaderContainer>
+        {user != ''?
+            <>
+                <DropdownContainer>
+                    <div className="nav">
+                        <div className="item">
+                            <div className="td">
+                                TODOS OS DEPARTAMENTOS
+                            </div>
+                            
+                        </div>
+                        <div className="item">
+                            SEJA PRIME
+                        </div>
+                        <div className="item">
+                            CENTRAL DE ATENDIMENTO
+                        </div>
+                    </div>
+                    
+                </DropdownContainer>
+            </>
+            :
+            <>
+                
+            </>
+        }
+        </>
     )
 }
 
@@ -166,6 +195,49 @@ const HeaderContainer = styled.header`
     padding:29px;
     
 `;
+
+const DropdownContainer = styled.header`
+    background: #FF6500;
+    width:100%;
+    background: rgb(227,82,20);
+    background: linear-gradient(90deg, rgba(227,82,20,1) 45%, rgba(255,101,0,1) 45%);
+    .nav{
+        max-width:1440px;
+        margin:auto;
+        display:flex;
+        flex-direction: row;
+        gap:20px;
+        background: #FF6500;
+        .item{
+            font-weight: bold;
+            font-size: 14px;
+            
+            text-align:center;
+            padding:5px;
+            .td{
+                padding-right:50px;
+                :after{
+                    content:"";
+                    
+                    height:7px;
+                    width:7px;
+                    border-right:2px solid #FFF;
+                    border-bottom:2px solid #FFF;
+                    position:absolute;
+                    transform: rotate(45deg) translate(20px,-15px);
+                    
+                }
+                
+            }
+            :first-child{
+                background: #E35214;
+            }
+            
+        }
+        
+    }
+`;
+
 
 const Menu = styled.div`
     display:flex;
