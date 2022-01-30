@@ -1,18 +1,23 @@
 import styled from 'styled-components';
 import Image from 'next/image'
-import Link from 'next/link';
 import CarouselCard from './CarouselCard';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Timer from './timer'
 let cart = [];
+
 export default function Body(props) {
     
     
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [data, setData] = useState([]);
-    
-    
+    const [timerData, setTimerData] = useState('');
+    const [date, setDate] = useState('');
+
+    let endDate ;
+    //let endDate = new Date('2022','00','29','00','00','00','00');
+    //console.log(endDate)
     const router = useRouter();
 
     const CallBackCard = (data) => {
@@ -23,13 +28,34 @@ export default function Body(props) {
         props.cbCart(cart)
         router.replace(router.asPath);
     }
+    const CallBackTimer = (data) => {
+        //console.log(data)
+        //setCart(data)
+        //cart.push(data)
+        //console.log(data)
+        setTimerData(data)
+        //props.cbCart(cart)
+        //router.replace(router.asPath);
+    }
     useEffect(() => {
-        fetch("/api/hello")
+        fetch("/api/items")
             .then(res => res.json())
             .then(
                 (data) => {
                     setIsLoaded(true);
                     setData(data);
+                },
+                (error) => {
+                    setIsLoaded(true);
+                    setError(error);
+                }
+            )
+        fetch("/api/sale")
+            .then(res => res.json())
+            .then(
+                (data) => {
+                    setIsLoaded(true);
+                    setDate(data);
                 },
                 (error) => {
                     setIsLoaded(true);
@@ -49,44 +75,15 @@ export default function Body(props) {
         i.s
         i.scrollTo({left:i.scrollLeft - 225, behavior:'smooth'})
     }
-    function countDown(){
-        let endDate = new Date('2022','00','29','00','00','00','00');
-        //console.log(endDate)
-        
-        //console.log(startDate)
-        //return endDate
-        const timer = document.getElementById('timer')
-        setInterval( () => {
-            let startDate = new Date()
-            let diff = Math.abs(endDate - startDate)
-            let days = Math.floor(diff / (1000 * 60 * 60 * 24)); 
-            let daysMilis = days * (1000 * 60 * 60 * 24)
-            let string
-            if(diff > daysMilis){
-                let rest = diff - daysMilis;
-                let hours = Math.floor(rest / (1000 * 60 * 60));
-                if(rest > (hours*1000 * 60 * 60)){
-                    let minrest = rest - (hours*1000 * 60 * 60);
-                    let minutes = Math.floor(minrest / (1000 * 60 ));
-                    if(minrest > (minutes * 1000 * 60)){
-                        let secrest = minrest - (minutes * 1000 * 60);
-                        //console.log(secrest)
-                        let seconds = Math.floor(secrest / 1000);
-                        string = days+'D '+hours+':'+minutes+':'+seconds+'';
-                        timer.innerText=string;
-                    }
-                }
-            }
-            
-        },1000)
-        
-    }
-    countDown()
+    //timer logic
+    
+
     if (error) {
         return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
         return <div>Loading...</div>;
     } else {
+        
         return (
             <Container>
     
@@ -94,11 +91,19 @@ export default function Body(props) {
                 <View>
                     <div className="card">
                         <p style={{ fontWeight: '800', fontSize: '24px' }}>BLACK FRIDAY</p>
-                        <Timer >
-                            <span style={{ fontSize: '16px' }}>A PROMOÇÃO TERMINA EM:</span>
-                            <Image src='/../public/assets/body/clock.png' width={22} height={24} />
-                            <span style={{ fontSize: '25px' }} id='timer'>{}</span>
-                        </Timer>
+                        <TimerView>
+                            {timerData? <>
+                                            <span style={{ fontSize: '16px' }}>A PROMOÇÃO TERMINA EM:</span> 
+                                            <Image src='/../public/assets/body/clock.png' width={22} height={24} />
+                                        </>
+                                        : 
+                                        <>
+                                            <span style={{ fontSize: '16px' }}>A PROMOÇÃO TERMINOU !</span>
+                                        </>
+                            }
+                            
+                            <span style={{ fontSize: '25px' }}><Timer cbTimer={CallBackTimer} endDate={date}></Timer></span>
+                        </TimerView>
                     </div>
                     <Carrousel>
                         <div className="prev" onClick={scrollRight}  style={{cursor:'pointer'}}>
@@ -107,8 +112,8 @@ export default function Body(props) {
     
                         {/*  carrousel over here*/}
                         <div className="carousel" id='slide'>
-                            {data.map(d => {
-                                return(<CarouselCard cbFunc={CallBackCard} item={d}></CarouselCard>)
+                            {data.map((d, index) => {
+                                return(<CarouselCard key={index} cbFunc={CallBackCard} item={d}></CarouselCard>)
                             })}
                             
     
@@ -169,7 +174,6 @@ export default function Body(props) {
         );
     }
     
-    
 }
 
 
@@ -206,7 +210,7 @@ const View = styled.div`
     }
 `
 
-const Timer = styled.p`
+const TimerView = styled.p`
     display:flex;
     flex-direction: row;
     align-items:center;
